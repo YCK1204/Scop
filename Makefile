@@ -34,6 +34,15 @@ fclean: clean
 
 re: fclean all
 
+# clangd 용 compile_commands.json 생성 (정의로 이동, 전체 인덱싱)
+compdb:
+	@{ echo "["; sep=""; \
+	for f in $(SRCS); do \
+		printf '%s\n  {"directory": "$(CURDIR)", "file": "%s", "command": "$(CXX) $(CXXFLAGS) $(addprefix -I,$(INC_DIRS)) -c %s"}' "$$sep" "$$f" "$$f"; \
+		sep=","; \
+	done; \
+	printf '\n]\n'; } > compile_commands.json
+
 -include $(DEPS)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re compdb

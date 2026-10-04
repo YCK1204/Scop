@@ -4,3 +4,5 @@ Docs/
 scop
 *.txt
 CLAUDE.md
+compile_commands.json
+.cache/

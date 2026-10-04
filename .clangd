@@ -1,2 +1,6 @@
 Index:
   StandardLibrary: Yes
+Documentation:
+  CommentFormat: Doxygen
+Hover:
+  ShowAKA: No
