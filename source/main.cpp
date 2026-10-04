@@ -18,7 +18,7 @@ int main() {
   Managers::GLF()->AddHint(GLFW_CONTEXT_VERSION_MINOR, 3); // 버전의 숫자 3.3의 두 번째 3
   Managers::GLF()->AddHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  Managers::Input()->AddCallback(Input_Type::INPUT_PRESS, GLFW_KEY_ESCAPE, 
+  Managers::Input()->AddCallback(Input_Type::INPUT_PRESS, Key::ESCAPE,
     [](){ Managers::GLF()->SetWindowShouldClose(true);}
   );
 

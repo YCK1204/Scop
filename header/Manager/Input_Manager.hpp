@@ -1,6 +1,7 @@
 #pragma once
 #include "Define.hpp"
 #include "Event.hpp"
+#include "Key.hpp"
 #include "Singleton.hpp"
 #include <map>
 #include <set>
@@ -20,32 +21,32 @@ public:
   using Callback = Event<>::Callback;
 
 private:
-  std::map<uint16, Event<>> m_callbacks[static_cast<uint8>(Input_Type::INPUT_MAX)];
-  std::set<uint16> m_heldKeys;
+  std::map<Key, Event<>> m_callbacks[static_cast<uint8>(Input_Type::INPUT_MAX)];
+  std::set<Key> m_heldKeys;
 
 private:
   Input_Manager();
 
 private:
-  std::map<uint16, Event<>> &GetCallbacks(Input_Type _type);
-  void Invoke(Input_Type _type, uint16 _key);
+  std::map<Key, Event<>> &GetCallbacks(Input_Type _type);
+  void Invoke(Input_Type _type, Key _key);
 
 public:
   /**
    * @brief 키 입력 콜백 등록
    * @param _type 언제 호출할지 (HOLD / PRESS / RELEASE / REPEAT)
-   * @param _key 키 코드 (GLFW_KEY_*)
+   * @param _key 키 코드 (Key::*)
    * @param _callback 인자와 반환값이 없는 함수
    */
-  void AddCallback(Input_Type _type, uint16 _key, Callback _callback);
+  void AddCallback(Input_Type _type, Key _key, Callback _callback);
   /**
    * @brief AddCallback으로 등록한 콜백 해제
    */
-  void RemoveCallback(Input_Type _type, uint16 _key, Callback _callback);
+  void RemoveCallback(Input_Type _type, Key _key, Callback _callback);
   /**
    * @brief 해당 종류, 해당 키에 등록된 콜백 전부 해제
    */
-  void ClearCallbacks(Input_Type _type, uint16 _key);
+  void ClearCallbacks(Input_Type _type, Key _key);
 
 public:
   /**
@@ -54,7 +55,7 @@ public:
    * @param _type INPUT_PRESS / INPUT_RELEASE / INPUT_REPEAT 중 하나
    * @param _key 키 코드
    */
-  void OnKeyEvent(Input_Type _type, uint16 _key);
+  void OnKeyEvent(Input_Type _type, Key _key);
   /**
    * @brief 매 프레임 호출. 지금 눌려 있는 키들의 HOLD 콜백을 부른다.
    * GLF_Manager::HandleInput이 호출한다.

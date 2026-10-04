@@ -64,5 +64,5 @@ void GLF_Manager::OnKey(GLFWwindow *, int _key, int, int _action, int) {
     return;
   }
 
-  Input_Manager::GetInstance()->OnKeyEvent(type, static_cast<uint16>(_key));
+  Input_Manager::GetInstance()->OnKeyEvent(type, static_cast<Key>(_key));
 }
