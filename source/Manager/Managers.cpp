@@ -14,6 +14,9 @@ bool Managers::TryInitialize(Out std::string &_errMessage)
 
     managerName = "GLF_Manager";
     GLF_Manager::GetInstance();
+
+    managerName = "Input_Manager";
+    Input_Manager::GetInstance();
   }
   catch (const std::bad_alloc &)
   {
@@ -43,3 +46,5 @@ File_Manager *Managers::File() { return File_Manager::GetInstance(); }
 Log_Manager *Managers::Log() { return Log_Manager::GetInstance(); }
 
 GLF_Manager *Managers::GLF() { return GLF_Manager::GetInstance(); }
+
+Input_Manager *Managers::Input() { return Input_Manager::GetInstance(); }

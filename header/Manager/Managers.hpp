@@ -3,6 +3,7 @@
 #include "Define.hpp"
 #include "File_Manager.hpp"
 #include "GLF_Manager.hpp"
+#include "Input_Manager.hpp"
 #include "Log_Manager.hpp"
 
 class Managers {
@@ -16,4 +17,5 @@ public:
   static File_Manager *File();
   static Log_Manager *Log();
   static GLF_Manager *GLF();
+  static Input_Manager *Input();
 };
