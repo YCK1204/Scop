@@ -12,8 +12,8 @@ bool Managers::TryInitialize(Out std::string &_errMessage)
     managerName = "Log_Manager";
     Log_Manager::GetInstance();
 
-    managerName = "GLF_Manager";
-    GLF_Manager::GetInstance();
+    managerName = "Graphics_Manager";
+    Graphics_Manager::GetInstance();
 
     managerName = "Input_Manager";
     Input_Manager::GetInstance();
@@ -31,7 +31,7 @@ bool Managers::TryInitialize(Out std::string &_errMessage)
     return false;
   }
 
-  if (!GLF()->Init())
+  if (!Graphics()->Init())
   {
     _errMessage = "Failed to initialize GLFW";
     Log()->Log(Log_Level::LOG_CRITICAL, _errMessage.c_str());
@@ -45,6 +45,6 @@ File_Manager *Managers::File() { return File_Manager::GetInstance(); }
 
 Log_Manager *Managers::Log() { return Log_Manager::GetInstance(); }
 
-GLF_Manager *Managers::GLF() { return GLF_Manager::GetInstance(); }
+Graphics_Manager *Managers::Graphics() { return Graphics_Manager::GetInstance(); }
 
 Input_Manager *Managers::Input() { return Input_Manager::GetInstance(); }

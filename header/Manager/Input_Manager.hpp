@@ -51,14 +51,14 @@ public:
 public:
   /**
    * @brief 키 상태가 바뀌었을 때 호출. PRESS / RELEASE / REPEAT 콜백을 부르고 눌린 키 목록을 갱신한다.
-   * GLF_Manager가 GLFW 키 콜백에서 호출한다.
+   * GLFW_Window가 GLFW 키 콜백에서 호출한다.
    * @param _type INPUT_PRESS / INPUT_RELEASE / INPUT_REPEAT 중 하나
    * @param _key 키 코드
    */
   void OnKeyEvent(Input_Type _type, Key _key);
   /**
    * @brief 매 프레임 호출. 지금 눌려 있는 키들의 HOLD 콜백을 부른다.
-   * GLF_Manager::HandleInput이 호출한다.
+   * Graphics_Manager::HandleInput이 호출한다.
    */
   void Update();
 };

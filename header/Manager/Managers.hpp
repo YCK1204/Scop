@@ -2,7 +2,7 @@
 #include <string>
 #include "Define.hpp"
 #include "File_Manager.hpp"
-#include "GLF_Manager.hpp"
+#include "Graphics_Manager.hpp"
 #include "Input_Manager.hpp"
 #include "Log_Manager.hpp"
 
@@ -16,6 +16,6 @@ public:
 public:
   static File_Manager *File();
   static Log_Manager *Log();
-  static GLF_Manager *GLF();
+  static Graphics_Manager *Graphics();
   static Input_Manager *Input();
 };
