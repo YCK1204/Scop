@@ -4,3 +4,6 @@ Documentation:
   CommentFormat: Doxygen
 Hover:
   ShowAKA: No
+Diagnostics:
+  ClangTidy:
+    Remove: bugprone-easily-swappable-parameters
