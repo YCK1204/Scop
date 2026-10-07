@@ -1,5 +1,7 @@
 #include "GLFW_Window.hpp"
+#include "Graphics_Manager.hpp"
 #include "Input_Manager.hpp"
+#include <GLFW/glfw3.h>
 #include <iostream>
 
 void GLFW_Window::AddHint(int hint, int value) const { glfwWindowHint(hint, value); }
@@ -13,6 +15,7 @@ bool GLFW_Window::Create(int width, int height, const char *title, GLFWmonitor *
   }
 
   glfwSetKeyCallback(m_window, OnKey);
+  glfwSetFramebufferSizeCallback(m_window, OnFramebufferSize);
   return true;
 }
 
@@ -48,4 +51,8 @@ void GLFW_Window::OnKey(GLFWwindow *, int _key, int, int _action, int) {
   }
 
   Input_Manager::GetInstance()->OnKeyEvent(type, static_cast<Key>(_key));
+}
+
+void GLFW_Window::OnFramebufferSize(GLFWwindow *, int _width, int _height) {
+  Graphics_Manager::GetInstance()->Viewport(0, 0, _width, _height);
 }

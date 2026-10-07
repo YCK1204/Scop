@@ -11,6 +11,13 @@ private:
    * @brief GLFW가 키 상태 변화 때 부르는 콜백. Input_Manager로 전달한다.
    */
   static void OnKey(GLFWwindow *, int _key, int, int _action, int);
+  /**
+   * @brief GLFW가 프레임버퍼 크기 변화 때 부르는 콜백. 뷰포트를 새 크기에 맞춘다.
+   * 창 크기를 바꿀 때와 디스플레이 배율이 적용될 때 불린다.
+   * @param _width 프레임버퍼 너비 (픽셀)
+   * @param _height 프레임버퍼 높이 (픽셀)
+   */
+  static void OnFramebufferSize(GLFWwindow *, int _width, int _height);
 
 public:
   /**
@@ -20,7 +27,7 @@ public:
    */
   void AddHint(int hint, int value) const;
   /**
-   * @brief GLFW 창을 생성해 m_window에 저장하고 키 콜백을 등록한다.
+   * @brief GLFW 창을 생성해 m_window에 저장하고 키 콜백과 프레임버퍼 크기 콜백을 등록한다.
    * @param width 창 너비 (픽셀)
    * @param height 창 높이 (픽셀)
    * @param title 창 제목

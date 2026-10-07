@@ -60,4 +60,9 @@ public:
    * @param _location GetUniformLocation으로 구한 위치
    */
   void SetUniform4f(int32 _location, float _x, float _y, float _z, float _w) const;
+  /**
+   * @brief float 유니폼 값을 넣는다. 내부에서 Use를 먼저 호출한다.
+   * @param _location GetUniformLocation으로 구한 위치
+   */
+  void SetUniform1f(int32 _location, float _value) const;
 };

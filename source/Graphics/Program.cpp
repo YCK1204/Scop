@@ -36,3 +36,7 @@ void Program::SetUniform4f(int32 _location, float _x, float _y, float _z, float 
   Use();
   glUniform4f(_location, _x, _y, _z, _w);
 }
+void Program::SetUniform1f(int32 _location, float _value) const {
+  Use();
+  glUniform1f(_location, _value);
+}
