@@ -2,22 +2,27 @@
 #include "Graphics_Include.hpp"
 #include "Managers.hpp"
 #include "Shader.hpp"
-#include <cmath>
 #include <iostream>
 
 const char *vertexShaderSource = "#version 330 core\n"
-                                 "layout (location = 0) in vec3 aPos;\n"
+                                 "layout (location = 0) in vec3 aPos;   // 위치 변수는 위치 0이라는 속성을 가지고 있습니다.\n"
+                                 "layout (location = 1) in vec3 aColor; // 색상 변수는 위치 1이라는 속성을 가지고 있습니다.\n"
+
+                                 "out vec3 ourColor; // 프래그먼트 셰이더로 보낼 색\n"
+
                                  "void main()\n"
                                  "{\n"
-                                 "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-                                 "}\0";
+                                 "    gl_Position = vec4(aPos, 1.0);\n"
+                                 "    ourColor = aColor; // ourColor 변수를 정점 데이터에서 가져온 입력 색상으로 설정합니다.\n"
+                                 "}\n";
 const char *fragmentShaderSource1 = "#version 330 core\n"
                                     "out vec4 FragColor;\n"
-                                    "uniform vec4 ourColor;\n"
+                                    "in vec3 ourColor;\n"
+
                                     "void main()\n"
                                     "{\n"
-                                    "   FragColor = ourColor;\n"
-                                    "}\n\0";
+                                    "    FragColor = vec4(ourColor, 1.0);\n"
+                                    "}\n";
 
 bool Render_Manager::Init() {
   std::shared_ptr<Shader> vertexShader = Managers::Shader()->CreateVertexShader(1, &vertexShaderSource, NULL);
@@ -50,31 +55,39 @@ bool Render_Manager::Init() {
     return false;
   }
 
-  float vertices1[] = {
-      -0.8f,
-      -0.3f,
-      0.0f, // left
-      -0.3f,
-      -0.3f,
-      0.0f, // right
-      -0.55f,
-      0.2f,
-      0.0f, // top
+  float vertices[] = {
+      // positions         // colors
+      0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom right
+      -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
+      0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f    // top
   };
 
-  m_program = program;
-  m_colorLocation = m_program->GetUniformLocation("ourColor");
-  m_mesh = std::make_unique<Mesh>(vertices1, 3);
+  AddMesh(program, std::make_shared<Mesh>(vertices, 3, std::vector<int32>{3, 3}));
   return true;
+}
+
+void Render_Manager::AddMesh(std::shared_ptr<Program> _program, std::shared_ptr<Mesh> _mesh) {
+  if (_program == nullptr || _mesh == nullptr) {
+    return;
+  }
+
+  for (RenderBatch &batch : m_batches) {
+    if (batch.program == _program) {
+      batch.meshes.push_back(_mesh);
+      return;
+    }
+  }
+  m_batches.push_back({_program, {_mesh}});
 }
 
 void Render_Manager::Update() const {
   glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
 
-  float timeValue = glfwGetTime();
-  float greenValue = std::sin(timeValue) / 2.0f + 0.5f;
-
-  m_program->SetUniform4f(m_colorLocation, 0.0f, greenValue, 0.0f, 1.0f);
-  m_mesh->Draw();
+  for (const RenderBatch &batch : m_batches) {
+    batch.program->Use();
+    for (const std::shared_ptr<Mesh> &mesh : batch.meshes) {
+      mesh->Draw();
+    }
+  }
 }

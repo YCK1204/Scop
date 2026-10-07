@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Define.hpp"
+#include <vector>
 
 class Mesh {
 private:
@@ -13,11 +14,13 @@ private:
 
 public:
   /**
-   * @brief 정점 위치 배열로 VAO, VBO를 만든다.
-   * @param _positions 정점 위치 배열. 정점 하나당 float 3개 (x, y, z)
+   * @brief 정점 배열로 VAO, VBO를 만든다.
+   * @param _vertices 정점 배열. 정점 하나의 속성들이 순서대로 붙어 있는 float 배열
    * @param _vertexCount 정점 개수
+   * @param _attributeSizes 속성별 float 개수. 순서가 쉐이더의 layout (location = N)이 된다.
+   * 예) 위치 3개 + 색 3개면 {3, 3}
    */
-  Mesh(const float *_positions, int32 _vertexCount);
+  Mesh(const float *_vertices, int32 _vertexCount, const std::vector<int32> &_attributeSizes);
   /**
    * @brief VAO, VBO를 삭제한다. GL 컨텍스트가 살아 있는 동안 소멸되어야 한다
    */
