@@ -1,6 +1,10 @@
 #include "Graphics_Manager.hpp"
 #include "Define.hpp"
+#include "Graphics/Shader.hpp"
 #include "Input_Manager.hpp"
+#include "ShaderManager.hpp"
+#include <cmath>
+#include <memory>
 const char *vertexShaderSource = "#version 330 core\n"
                                  "layout (location = 0) in vec3 aPos;\n"
                                  "void main()\n"
@@ -9,16 +13,12 @@ const char *vertexShaderSource = "#version 330 core\n"
                                  "}\0";
 const char *fragmentShaderSource1 = "#version 330 core\n"
                                     "out vec4 FragColor;\n"
+                                    "uniform vec4 ourColor;\n"
                                     "void main()\n"
                                     "{\n"
-                                    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+                                    "   FragColor = ourColor;\n"
                                     "}\n\0";
-const char *fragmentShaderSource2 = "#version 330 core\n"
-                                    "out vec4 FragColor;\n"
-                                    "void main()\n"
-                                    "{\n"
-                                    "   FragColor = vec4(0.5f, 0.5f, 0.2f, 1.0f);\n"
-                                    "}\n\0";
+
 bool Graphics_Manager::Init() const { return glfwInit() == GLFW_TRUE; }
 
 void Graphics_Manager::Terminate() const { glfwTerminate(); }
@@ -26,43 +26,31 @@ void Graphics_Manager::Terminate() const { glfwTerminate(); }
 GLFW_Window &Graphics_Manager::GetWindow() { return m_window; }
 
 void Graphics_Manager::Run() const {
-  uint32 vertexShader = 0;
-  if (!m_shader.CreateVertexShader(1, &vertexShaderSource, NULL, vertexShader)) {
+  
+  std::shared_ptr<Shader> vertexShader = ShaderManager::GetInstance()->CreateVertexShader(1, &vertexShaderSource, NULL);
+  if (vertexShader == nullptr) {
     std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
-              << m_shader.GetShaderInfoLog(vertexShader) << std::endl;
+              << ShaderManager::GetInstance()->GetShaderInfoLog(vertexShader) << std::endl;
   }
 
-  uint32 fragmentShader1 = 0;
-  if (!m_shader.CreateFragmentShader(1, &fragmentShaderSource1, NULL, fragmentShader1)) {
+  std::shared_ptr<Shader> fragmentShader = ShaderManager::GetInstance()->CreateFragmentShader(1, &fragmentShaderSource1, NULL);
+  if (fragmentShader == nullptr) {
     std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n"
-              << m_shader.GetShaderInfoLog(fragmentShader1) << std::endl;
-  }
-
-  uint32 fragmentShader2 = 0;
-  if (!m_shader.CreateFragmentShader(1, &fragmentShaderSource2, NULL, fragmentShader2)) {
-    std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n"
-              << m_shader.GetShaderInfoLog(fragmentShader2) << std::endl;
+              << ShaderManager::GetInstance()->GetShaderInfoLog(fragmentShader) << std::endl;
   }
 
   uint32 shaderProgram1 = m_program.CreateProgram();
   m_program.AttachShader(shaderProgram1, vertexShader);
-  m_program.AttachShader(shaderProgram1, fragmentShader1);
+  m_program.AttachShader(shaderProgram1, fragmentShader);
   m_program.LinkProgram(shaderProgram1);
   if (!m_program.GetProgramiv(shaderProgram1, GL_LINK_STATUS)) {
     std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n"
               << m_program.GetProgramInfoLog(shaderProgram1) << std::endl;
   }
-  glDeleteShader(fragmentShader1);
-  uint32 shaderProgram2 = m_program.CreateProgram();
-  m_program.AttachShader(shaderProgram2, vertexShader);
-  m_program.AttachShader(shaderProgram2, fragmentShader2);
-  m_program.LinkProgram(shaderProgram2);
-  if (!m_program.GetProgramiv(shaderProgram2, GL_LINK_STATUS)) {
-    std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n"
-              << m_program.GetProgramInfoLog(shaderProgram2) << std::endl;
-  }
-  glDeleteShader(vertexShader);
-  glDeleteShader(fragmentShader2);
+  ShaderManager::GetInstance()->ShaderManager::GetInstance()->DeleteShader(fragmentShader);
+
+  ShaderManager::GetInstance()->ShaderManager::GetInstance()->DeleteShader(vertexShader);
+
 
   // set up vertex data (and buffer(s)) and configure vertex attributes
   // ------------------------------------------------------------------
@@ -122,13 +110,14 @@ void Graphics_Manager::Run() const {
   while (!m_window.ShouldClose()) {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+    float timeValue = glfwGetTime();
+    float greenValue = std::sin(timeValue) / 2.0f + 0.5f;
+    int vertexColorLocation = glGetUniformLocation(shaderProgram1, "ourColor");
+    glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
     // draw our first triangle
     glUseProgram(shaderProgram1);
     glBindVertexArray(VAO1); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-    glUseProgram(shaderProgram2);
-    glBindVertexArray(VAO2); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
     glDrawArrays(GL_TRIANGLES, 0, 3);
     HandleInput();
     m_window.SwapBuffers();

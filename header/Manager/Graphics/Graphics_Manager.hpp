@@ -2,7 +2,6 @@
 #include "Graphics_Include.hpp"
 #include "Define.hpp"
 #include "GL_Program.hpp"
-#include "GL_Shader.hpp"
 #include "GLFW_Window.hpp"
 #include "Singleton.hpp"
 #include <iostream>
@@ -13,7 +12,6 @@ class Graphics_Manager : public Singleton<Graphics_Manager> {
 
 private:
   GLFW_Window m_window;
-  GL_Shader m_shader;
   GL_Program m_program;
 
 private:
