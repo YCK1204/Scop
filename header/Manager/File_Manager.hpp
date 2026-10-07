@@ -3,7 +3,6 @@
 #include "Singleton.hpp"
 #include <fstream>
 #include <map>
-#include <sstream>
 #include <string>
 
 class File_Manager : public Singleton<File_Manager> {

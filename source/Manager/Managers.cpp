@@ -1,5 +1,4 @@
 #include "Managers.hpp"
-#include <new>
 
 bool Managers::TryInitialize(Out std::string &_errMessage)
 {
@@ -17,6 +16,15 @@ bool Managers::TryInitialize(Out std::string &_errMessage)
 
     managerName = "Input_Manager";
     Input_Manager::GetInstance();
+
+    managerName = "Shader_Manager";
+    Shader_Manager::GetInstance();
+
+    managerName = "Program_Manager";
+    Program_Manager::GetInstance();
+
+    managerName = "Render_Manager";
+    Render_Manager::GetInstance();
   }
   catch (const std::bad_alloc &)
   {
@@ -40,6 +48,16 @@ bool Managers::TryInitialize(Out std::string &_errMessage)
 
   return true;
 }
+void Managers::DestroyManagers() 
+{
+  File_Manager::GetInstance()->DestroyInstance();
+  Log_Manager::GetInstance()->DestroyInstance();
+  Render_Manager::GetInstance()->DestroyInstance();
+  Shader_Manager::GetInstance()->DestroyInstance();
+  Program_Manager::GetInstance()->DestroyInstance();
+  Graphics_Manager::GetInstance()->DestroyInstance();
+  Input_Manager::GetInstance()->DestroyInstance();
+}
 
 File_Manager *Managers::File() { return File_Manager::GetInstance(); }
 
@@ -48,3 +66,9 @@ Log_Manager *Managers::Log() { return Log_Manager::GetInstance(); }
 Graphics_Manager *Managers::Graphics() { return Graphics_Manager::GetInstance(); }
 
 Input_Manager *Managers::Input() { return Input_Manager::GetInstance(); }
+
+Shader_Manager *Managers::Shader() { return Shader_Manager::GetInstance(); }
+
+Program_Manager *Managers::Program() { return Program_Manager::GetInstance(); }
+
+Render_Manager *Managers::Render() { return Render_Manager::GetInstance(); }

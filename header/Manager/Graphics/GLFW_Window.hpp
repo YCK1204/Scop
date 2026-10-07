@@ -16,19 +16,19 @@ public:
   /**
    * @brief 어떤 방식으로 OpenGL을 사용할지에 관한 명세 Hint
    * Graphics_Manager::Init 이후, Create 이전 호출해야함
-   * hint와 value는 glfw-window-hints.md 참고
+   * hint와 value는 GLFW 문서의 Window hints 참고
    */
   void AddHint(int hint, int value) const;
   /**
    * @brief GLFW 창을 생성해 m_window에 저장하고 키 콜백을 등록한다.
    * @param width 창 너비 (픽셀)
-   * @param heigiht 창 높이 (픽셀)
+   * @param height 창 높이 (픽셀)
    * @param title 창 제목
    * @param monitor 전체 화면으로 띄울 모니터. 창 모드면 NULL
    * @param share 컨텍스트 리소스를 공유할 창. 없으면 NULL
    * @return 창 생성에 성공하면 true, 실패하면 false. 실패 시 Graphics_Manager::Terminate는 호출자가 부른다
    */
-  bool Create(int width, int heigiht, const char *title, GLFWmonitor *monitor, GLFWwindow *share);
+  bool Create(int width, int height, const char *title, GLFWmonitor *monitor, GLFWwindow *share);
 
   void MakeContextCurrent() const;
 

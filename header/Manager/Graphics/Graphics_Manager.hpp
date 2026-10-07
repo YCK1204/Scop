@@ -1,18 +1,12 @@
 #pragma once
-#include "Graphics_Include.hpp"
-#include "Define.hpp"
-#include "GL_Program.hpp"
 #include "GLFW_Window.hpp"
+#include "Graphics_Include.hpp"
 #include "Singleton.hpp"
-#include <iostream>
-#include <map>
-#include <ostream>
 
 class Graphics_Manager : public Singleton<Graphics_Manager> {
 
 private:
   GLFW_Window m_window;
-  GL_Program m_program;
 
 private:
   /**
@@ -28,7 +22,8 @@ public:
    */
   bool Init() const;
   /**
-   * @brief GLFW에 사용되던 모든 리소스 정리 및 삭제, 창 닫은 이후 시점에 호출
+   * @brief 매니저에 남은 메쉬, 쉐이더, 프로그램을 해제한 뒤 GLFW에 사용되던 모든 리소스 정리 및 삭제
+   * 창 닫은 이후 시점에 호출
    */
   void Terminate() const;
 
@@ -51,5 +46,10 @@ public:
   }
 
 public:
+  /**
+   * @brief Render_Manager를 준비하고 창이 닫힐 때까지 렌더링 루프를 돈다.
+   * 준비에 실패하면 루프 없이 바로 반환한다.
+   * 창 생성과 MakeContextCurrent 이후 호출해야함
+   */
   void Run() const;
 };

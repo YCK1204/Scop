@@ -1,8 +1,6 @@
-#include <GLFW/glfw3.h>
 #include <iostream>
-#include <ostream>
 #include <string>
-#include <utility>
+#include "Graphics_Include.hpp"
 #include "Input_Manager.hpp"
 #include "Managers.hpp"
 
@@ -30,5 +28,6 @@ int main() {
   Managers::Graphics()->GetWindow().MakeContextCurrent();
   Managers::Graphics()->Run();
   Managers::Graphics()->Terminate();
+  Managers::DestroyManagers();
   return 0;
 }

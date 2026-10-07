@@ -1,4 +1,5 @@
 #include "File_Manager.hpp"
+#include <sstream>
 
 File_Manager::File_Manager() {}
 

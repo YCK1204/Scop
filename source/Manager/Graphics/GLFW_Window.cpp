@@ -4,8 +4,8 @@
 
 void GLFW_Window::AddHint(int hint, int value) const { glfwWindowHint(hint, value); }
 
-bool GLFW_Window::Create(int width, int heigiht, const char *title, GLFWmonitor *monitor, GLFWwindow *share) {
-  m_window = glfwCreateWindow(width, heigiht, title, monitor, share);
+bool GLFW_Window::Create(int width, int height, const char *title, GLFWmonitor *monitor, GLFWwindow *share) {
+  m_window = glfwCreateWindow(width, height, title, monitor, share);
 
   if (m_window == NULL) {
     std::cout << "Failed to create GLFW window" << std::endl;

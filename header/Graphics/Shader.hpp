@@ -4,7 +4,7 @@
 
 enum class ShaderType : uint16 {
   SHADER_VERTEX = 0x8B31,
-  SHDAER_FRAGMENT = 0x8B30,
+  SHADER_FRAGMENT = 0x8B30,
 };
 
 class Shader {
@@ -15,6 +15,14 @@ private:
 
 public:
   Shader(uint32 _id, ShaderType _type);
+  /**
+   * @brief 쉐이더 객체를 삭제한다. GL 컨텍스트가 살아 있는 동안 소멸되어야 한다
+   */
+  ~Shader();
+  Shader(const Shader &) = delete;
+  Shader &operator=(const Shader &) = delete;
+
+public:
   const uint32 &GetId() const;
   const ShaderType &GetType() const;
 };
