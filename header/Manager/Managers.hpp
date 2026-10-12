@@ -8,6 +8,7 @@
 #include "Program_Manager.hpp"
 #include "Render_Manager.hpp"
 #include "Shader_Manager.hpp"
+#include "TextureManager.hpp"
 
 class Managers {
 private:
@@ -25,4 +26,5 @@ public:
   static Shader_Manager *Shader();
   static Program_Manager *Program();
   static Render_Manager *Render();
+  static TextureManager *Texture();
 };

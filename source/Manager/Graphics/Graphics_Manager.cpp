@@ -18,6 +18,7 @@ void Graphics_Manager::Run() const {
     return;
   }
 
+  Managers::Texture()->GenerateMipmap();
   while (!m_window.ShouldClose()) {
     Managers::Render()->Update();
     HandleInput();

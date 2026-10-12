@@ -28,21 +28,21 @@ bool File_Manager::TryGetFileStr(const std::string &_fileName, Out const std::st
   return true;
 }
 
-bool File_Manager::ReadAndSetFileStr(const std::string &_fileName, std::ifstream &_file, bool _forceOverWrite) {
+bool File_Manager::ReadFile(const std::string &_fileName, bool _forceOverWrite) {
+  std::ifstream file;
+
   if (!HasFileStr(_fileName) || _forceOverWrite) {
     std::string fileStr;
 
-    if (!_file.is_open()) {
-      _file.open(GetFullPath(_fileName));
-    }
+    file.open(GetFullPath(_fileName));
 
-    if (_file.fail()) {
+    if (file.fail()) {
       return false;
     }
 
     std::stringstream ss;
-    ss << _file.rdbuf();
-    _file.close();
+    ss << file.rdbuf();
+    file.close();
 
     m_Files[_fileName] = ss.str();
 

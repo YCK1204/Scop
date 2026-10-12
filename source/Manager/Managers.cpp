@@ -1,4 +1,5 @@
 #include "Managers.hpp"
+#include "TextureManager.hpp"
 
 bool Managers::TryInitialize(Out std::string &_errMessage)
 {
@@ -25,6 +26,8 @@ bool Managers::TryInitialize(Out std::string &_errMessage)
 
     managerName = "Render_Manager";
     Render_Manager::GetInstance();
+
+
   }
   catch (const std::bad_alloc &)
   {
@@ -72,3 +75,5 @@ Shader_Manager *Managers::Shader() { return Shader_Manager::GetInstance(); }
 Program_Manager *Managers::Program() { return Program_Manager::GetInstance(); }
 
 Render_Manager *Managers::Render() { return Render_Manager::GetInstance(); }
+
+TextureManager *Managers::Texture() { return TextureManager::GetInstance();; }

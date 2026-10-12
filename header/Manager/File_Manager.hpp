@@ -24,7 +24,7 @@ public:
 public:
   bool HasFileStr(const std::string &_fileName) const;
   bool TryGetFileStr(const std::string &_fileName, Out const std::string *&_fileStr) const;
-  bool ReadAndSetFileStr(const std::string &_fileName, std::ifstream &_file, bool _forceOverWrite = false);
+  bool ReadFile(const std::string &_fileName, bool _forceOverWrite = false);
   bool TryOpenFile(const std::string &_fileName, Out std::ifstream &_file) const;
 
 public:
