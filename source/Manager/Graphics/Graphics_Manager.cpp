@@ -1,6 +1,8 @@
 #include "Graphics_Manager.hpp"
 #include "Input_Manager.hpp"
 #include "Managers.hpp"
+#include "ObjectManager.hpp"
+#include "TextureManager.hpp"
 
 bool Graphics_Manager::Init() const { return glfwInit() == GLFW_TRUE; }
 
@@ -8,6 +10,8 @@ void Graphics_Manager::Terminate() const {
   Render_Manager::DestroyInstance();
   Shader_Manager::DestroyInstance();
   Program_Manager::DestroyInstance();
+  ObjectManager::DestroyInstance();
+  TextureManager::DestroyInstance();
   glfwTerminate();
 }
 

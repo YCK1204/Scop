@@ -5,6 +5,7 @@
 #include "Graphics_Manager.hpp"
 #include "Input_Manager.hpp"
 #include "Log_Manager.hpp"
+#include "ObjectManager.hpp"
 #include "Program_Manager.hpp"
 #include "Render_Manager.hpp"
 #include "Shader_Manager.hpp"
@@ -27,4 +28,5 @@ public:
   static Program_Manager *Program();
   static Render_Manager *Render();
   static TextureManager *Texture();
+  static ObjectManager *Objects();
 };

@@ -1,4 +1,5 @@
 #include "Managers.hpp"
+#include "ObjectManager.hpp"
 #include "TextureManager.hpp"
 
 bool Managers::TryInitialize(Out std::string &_errMessage)
@@ -60,6 +61,7 @@ void Managers::DestroyManagers()
   Program_Manager::GetInstance()->DestroyInstance();
   Graphics_Manager::GetInstance()->DestroyInstance();
   Input_Manager::GetInstance()->DestroyInstance();
+  ObjectManager::GetInstance()->DestroyInstance();
 }
 
 File_Manager *Managers::File() { return File_Manager::GetInstance(); }
@@ -76,4 +78,6 @@ Program_Manager *Managers::Program() { return Program_Manager::GetInstance(); }
 
 Render_Manager *Managers::Render() { return Render_Manager::GetInstance(); }
 
-TextureManager *Managers::Texture() { return TextureManager::GetInstance();; }
+TextureManager *Managers::Texture() { return TextureManager::GetInstance(); }
+
+ObjectManager *Managers::Objects() { return ObjectManager::GetInstance(); }
