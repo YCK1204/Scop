@@ -1,6 +1,8 @@
 #include "Program_Manager.hpp"
 #include "Graphics_Include.hpp"
 
+bool Program_Manager::Init() { return true; }
+
 std::shared_ptr<Program> Program_Manager::CreateProgram() {
   uint32 programId = glCreateProgram();
 

@@ -35,7 +35,9 @@ const char *fragmentShaderSource1 = "#version 330 core\n"
 
 static const char *tempTexturePath = "Resources/Image/TangTang.bmp";
 
-bool Render_Manager::Init() {
+bool Render_Manager::Init() { return true; }
+
+bool Render_Manager::InitScene() {
   Managers::File()->ReadFile(tempTexturePath);
   if (!Managers::Texture()->Create(tempTexturePath)) {
     return false;

@@ -16,11 +16,11 @@ private:
 
 public:
   /**
-   * @brief 무조건 맨 처음 실행되어야할 초기화 함수
+   * @brief GLFW를 초기화한다. 창 생성과 다른 GL 호출보다 먼저 실행되어야 한다
    * @return true 초기화 성공
    * @return false 초기화 실패
    */
-  bool Init() const;
+  bool Init() override;
   /**
    * @brief 매니저에 남은 메쉬, 쉐이더, 프로그램을 해제한 뒤 GLFW에 사용되던 모든 리소스 정리 및 삭제
    * 창 닫은 이후 시점에 호출
@@ -47,7 +47,7 @@ public:
 
 public:
   /**
-   * @brief Render_Manager를 준비하고 창이 닫힐 때까지 렌더링 루프를 돈다.
+   * @brief Render_Manager::InitScene으로 그릴 것을 준비하고 창이 닫힐 때까지 렌더링 루프를 돈다.
    * 준비에 실패하면 루프 없이 바로 반환한다.
    * 창 생성과 MakeContextCurrent 이후 호출해야함
    */

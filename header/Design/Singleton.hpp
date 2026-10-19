@@ -11,6 +11,12 @@ public:
 public:
   static void DestroyInstance();
   static T *GetInstance();
+  /**
+   * @brief 매니저 초기화. Managers::TryInitialize가 인스턴스를 만든 직후 한 번 호출한다.
+   * 할 일이 없는 매니저는 true만 반환하면 된다
+   * @return 초기화에 성공하면 true
+   */
+  virtual bool Init() = 0;
 };
 
 template <typename T>

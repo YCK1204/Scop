@@ -20,6 +20,10 @@ private:
     const char* GetLevelStr(Log_Level _level) const;
 
 public:
-    bool Init(const std::string& _fileName);
+    /**
+     * @brief File_Manager의 기준 경로 아래에 log.txt를 연다. File_Manager::Init 이후 호출해야함
+     * @return 로그 파일을 열었으면 true
+     */
+    bool Init() override;
     void Log(Log_Level _level, const char* value);
 };

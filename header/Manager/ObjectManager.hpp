@@ -10,6 +10,10 @@ private:
     std::map<std::string, std::shared_ptr<Object>> m_objects;
 
 public:
+    /**
+     * @brief 할 일 없음
+     */
+    bool Init() override;
     void SetObject(std::shared_ptr<Object> _obj);
     std::shared_ptr<Object> GetObject(std::string _key);
     void DeleteObject(std::string _key);

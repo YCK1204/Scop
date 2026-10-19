@@ -4,7 +4,7 @@
 #include "ObjectManager.hpp"
 #include "TextureManager.hpp"
 
-bool Graphics_Manager::Init() const { return glfwInit() == GLFW_TRUE; }
+bool Graphics_Manager::Init() { return glfwInit() == GLFW_TRUE; }
 
 void Graphics_Manager::Terminate() const {
   Render_Manager::DestroyInstance();
@@ -18,7 +18,7 @@ void Graphics_Manager::Terminate() const {
 GLFW_Window &Graphics_Manager::GetWindow() { return m_window; }
 
 void Graphics_Manager::Run() const {
-  if (!Managers::Render()->Init()) {
+  if (!Managers::Render()->InitScene()) {
     return;
   }
 

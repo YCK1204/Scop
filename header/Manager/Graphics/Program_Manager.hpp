@@ -11,6 +11,10 @@ private:
 
 public:
   /**
+   * @brief 할 일 없음
+   */
+  bool Init() override;
+  /**
    * @brief 빈 프로그램 객체를 만든다.
    * @return 생성된 프로그램. 실패하면 nullptr
    */

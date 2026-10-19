@@ -9,6 +9,8 @@
 class Shader_Manager : public Singleton<Shader_Manager> {
 private:
   std::map<uint32, std::shared_ptr<Shader>> m_shaders;
+  std::string m_VertexShaderSrcTemplate;
+  std::string m_FragmentShaderSrcTemplate;
 
 private:
   /**
@@ -17,17 +19,12 @@ private:
    * @return 컴파일된 쉐이더. 생성이나 컴파일에 실패하면 nullptr
    */
   std::shared_ptr<Shader> Create(ShaderType _type, int32 _count, const char **_source, const int32 *_length);
-  /**
-   * @brief 쉐이더 객체의 상태값 조회
-   * @param _pname GL_COMPILE_STATUS, GL_INFO_LOG_LENGTH 등
-   */
-  int32 GetShaderiv(uint32 _id, uint32 _pname) const;
-  /**
-   * @brief 쉐이더 컴파일 로그. 로그가 없으면 빈 문자열
-   */
-  std::string GetShaderInfoLog(uint32 _id) const;
 
 public:
+  /**
+   * @brief 할 일 없음
+   */
+  bool Init() override;
   /**
    * @brief 버텍스 쉐이더를 만들어 컴파일한다. 컴파일에 실패하면 컴파일 로그를 출력한다.
    * @param _count _source 배열의 문자열 개수

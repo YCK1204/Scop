@@ -3,6 +3,11 @@
 
 File_Manager::File_Manager() {}
 
+bool File_Manager::Init() {
+  SetPath("./");
+  return true;
+}
+
 std::string File_Manager::GetFullPath(const std::string &_fileName) const {
   return m_basePath + _fileName;
 }

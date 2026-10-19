@@ -2,6 +2,8 @@
 #include "Object/Object.hpp"
 #include <memory>
 
+bool ObjectManager::Init() { return true; }
+
 void ObjectManager::SetObject(std::shared_ptr<Object> _obj) {
   if (_obj) {
     m_objects[_obj->GetName()] = _obj;

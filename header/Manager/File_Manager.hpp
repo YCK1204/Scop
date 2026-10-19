@@ -19,6 +19,10 @@ private:
   File_Manager();
 
 public:
+  /**
+   * @brief 기준 경로를 실행 위치("./")로 설정한다.
+   */
+  bool Init() override;
   void SetPath(const std::string &_path);
 
 public:

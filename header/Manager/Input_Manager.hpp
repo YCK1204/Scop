@@ -33,6 +33,10 @@ private:
 
 public:
   /**
+   * @brief 할 일 없음
+   */
+  bool Init() override;
+  /**
    * @brief 키 입력 콜백 등록
    * @param _type 언제 호출할지 (HOLD / PRESS / RELEASE / REPEAT)
    * @param _key 키 코드 (Key::*)

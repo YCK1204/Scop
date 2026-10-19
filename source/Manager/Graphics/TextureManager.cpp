@@ -7,6 +7,8 @@
 #include <memory>
 #include <string>
 
+bool TextureManager::Init() { return true; }
+
 std::shared_ptr<Texture> TextureManager::Create(const std::string &_imageFileName) {
   uint32 id = 0;
   std::shared_ptr<Texture> texture = nullptr;

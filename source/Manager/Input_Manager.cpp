@@ -2,6 +2,8 @@
 
 Input_Manager::Input_Manager() {}
 
+bool Input_Manager::Init() { return true; }
+
 std::map<Key, Event<>> &Input_Manager::GetCallbacks(Input_Type _type) {
   return m_callbacks[static_cast<uint8>(_type)];
 }

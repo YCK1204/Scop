@@ -14,9 +14,9 @@ const char* Log_Manager::GetLevelStr(Log_Level _level) const
     return "UNKNOWN";
 }
 
-bool Log_Manager::Init(const std::string& _fileName)
+bool Log_Manager::Init()
 {
-    return File_Manager::GetInstance()->TryOpenFile(_fileName, m_logFile);
+    return File_Manager::GetInstance()->TryOpenFile("log.txt", m_logFile);
 }
 
 void Log_Manager::Log(Log_Level _level, const char* value)

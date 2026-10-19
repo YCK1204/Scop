@@ -20,11 +20,15 @@ private:
 
 public:
   /**
+   * @brief 할 일 없음. GL 준비는 GL 컨텍스트가 필요하므로 InitScene에서 한다
+   */
+  bool Init() override;
+  /**
    * @brief 쉐이더를 컴파일해 프로그램을 링크하고, 그릴 메쉬를 만들어 AddMesh로 등록한다.
    * 창 생성과 MakeContextCurrent 이후 호출해야함
    * @return 준비에 성공하면 true. 쉐이더 컴파일이나 링크에 실패하면 false
    */
-  bool Init();
+  bool InitScene();
   /**
    * @brief _program으로 그릴 메쉬를 추가한다. 같은 프로그램에 여러 번 호출하면 그 프로그램의 메쉬 목록에 쌓인다.
    * _program이나 _mesh가 nullptr이면 추가하지 않는다
