@@ -4,6 +4,7 @@
 #include "Managers.hpp"
 #include "Program.hpp"
 #include "Shader.hpp"
+#include "Utils/ShaderSourceBuilder.hpp"
 #include <GLFW/glfw3.h>
 #include <cmath>
 #include <fstream>
@@ -43,19 +44,37 @@ bool Render_Manager::InitScene() {
     return false;
   }
 
-  std::shared_ptr<Shader> vertexShader = Managers::Shader()->CreateVertexShader(1, &vertexShaderSource, NULL);
+  std::shared_ptr<Shader> vertexShader = Managers::Shader()->CreateVertexShader();
   if (vertexShader == nullptr) {
     return false;
   }
 
-  std::shared_ptr<Shader> fragmentShader = Managers::Shader()->CreateFragmentShader(1, &fragmentShaderSource1, NULL);
+  std::shared_ptr<Shader> fragmentShader = Managers::Shader()->CreateFragmentShader();
   if (fragmentShader == nullptr) {
     Managers::Shader()->DeleteShader(vertexShader);
     return false;
   }
+  ShaderSourceBuilder vertexBuilder;
+  vertexBuilder.H_AddLayout(0, "vec3", "aPos")
+                              .H_AddLayout(1, "vec3", "aColor")
+                              .H_AddLayout(2, "vec2", "aTexCoord")
+                              .H_AddUniform("vec3", "OffsetPosition")
+                              .H_AddOut("vec2", "TexCoord")
+                              .M_AddSetVar("gl_Position", "vec4(aPos + OffsetPosition, 1.0)")
+                              .M_AddSetVar("TexCoord", "aTexCoord");
+  std::string vertexSrc = vertexBuilder.Build();
+
+  ShaderSourceBuilder fragmentBuilder;
+  fragmentBuilder.H_AddOut("vec4", "FragColor")
+                                .H_AddIn("vec2", "TexCoord")
+                                .H_AddUniform("sampler2D", "ourTexture")
+                                .M_AddSetVar("FragColor", "texture(ourTexture, TexCoord)");
+  std::string fragmentSrc = fragmentBuilder.Build();
 
   std::shared_ptr<Program> program = Managers::Program()->CreateProgram();
-  if (program != nullptr) {
+  vertexShader->Compile(vertexSrc);
+  fragmentShader->Compile(fragmentSrc);
+  if (program != nullptr && vertexShader->IsCompiled() && fragmentShader->IsCompiled()) {
     program->AttachShader(vertexShader);
     program->AttachShader(fragmentShader);
     program->Link();
@@ -72,6 +91,8 @@ bool Render_Manager::InitScene() {
     Managers::Program()->DeleteProgram(program);
     return false;
   }
+  program->RegisterUniforms(vertexBuilder.GetUniforms());
+  program->RegisterUniforms(fragmentBuilder.GetUniforms());
 
   float vertices[] = {
       // positions         // colors         // uv
@@ -83,22 +104,12 @@ bool Render_Manager::InitScene() {
       0.0f, -0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f   // 좌측 아래
   };
 
-  AddMesh(program, std::make_shared<Mesh>(vertices, 6, std::vector<int32>{3, 3, 2}));
+  std::shared_ptr<Object> quad = std::make_shared<Object>("quad");
+  quad->SetMesh(std::make_shared<Mesh>(vertices, 6, std::vector<int32>{3, 3, 2}));
+  Managers::Objects()->SetObject(quad);
+  quad->SetProgram(program);
+  quad->SetUniform("OffsetPosition", Vec3(-0.125f, -0.125f, 0.0f));
   return true;
-}
-
-void Render_Manager::AddMesh(std::shared_ptr<Program> _program, std::shared_ptr<Mesh> _mesh) {
-  if (_program == nullptr || _mesh == nullptr) {
-    return;
-  }
-
-  for (RenderBatch &batch : m_batches) {
-    if (batch.program == _program) {
-      batch.meshes.push_back(_mesh);
-      return;
-    }
-  }
-  m_batches.push_back({_program, {_mesh}});
 }
 
 void Render_Manager::Update() const {
@@ -107,11 +118,13 @@ void Render_Manager::Update() const {
 
   Managers::Texture()->Bind();
 
-  for (const RenderBatch &batch : m_batches) {
-    std::shared_ptr<Program> program = batch.program;
-    program->Use();
-    for (const std::shared_ptr<Mesh> &mesh : batch.meshes) {
-      mesh->Draw();
-    }
+  std::shared_ptr<Object> quad = Managers::Objects()->GetObject("quad");
+  if (quad != nullptr) {
+    float xOffset = std::sin(glfwGetTime() * 2) / 2;
+    quad->SetUniform("OffsetPosition", Vec3(xOffset - 0.125f, -0.125f, 0.0f));
+  }
+
+  for (const auto &[id, program] : Managers::Program()->GetPrograms()) {
+    program->DrawObjects();
   }
 }

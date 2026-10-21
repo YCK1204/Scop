@@ -2,9 +2,11 @@
 #include "Graphics_Include.hpp"
 #include <iostream>
 
-bool Shader_Manager::Init() { return true; }
+bool Shader_Manager::Init() {
+  return true;
+}
 
-std::shared_ptr<Shader> Shader_Manager::Create(ShaderType _type, int32 _count, const char **_source, const int32 *_length) {
+std::shared_ptr<Shader> Shader_Manager::Create(ShaderType _type) {
   uint32 shaderId;
   std::shared_ptr<Shader> shader = nullptr;
   shaderId = glCreateShader((uint32)_type);
@@ -28,12 +30,12 @@ std::shared_ptr<Shader> Shader_Manager::Create(ShaderType _type, int32 _count, c
   return shader;
 }
 
-std::shared_ptr<Shader> Shader_Manager::CreateVertexShader(int32 _count, const char **_source, const int32 *_length) {
-  return Create(ShaderType::SHADER_VERTEX, _count, _source, _length);
+std::shared_ptr<Shader> Shader_Manager::CreateVertexShader() {
+  return Create(ShaderType::SHADER_VERTEX);
 }
 
-std::shared_ptr<Shader> Shader_Manager::CreateFragmentShader(int32 _count, const char **_source, const int32 *_length) {
-  return Create(ShaderType::SHADER_FRAGMENT, _count, _source, _length);
+std::shared_ptr<Shader> Shader_Manager::CreateFragmentShader() {
+  return Create(ShaderType::SHADER_FRAGMENT);
 }
 
 const std::shared_ptr<Shader> Shader_Manager::GetShader(uint32 _id) const {

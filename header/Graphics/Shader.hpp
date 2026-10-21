@@ -1,16 +1,23 @@
 #pragma once
 
 #include "Define.hpp"
+#include <string>
 
 enum class ShaderType : uint16 {
   SHADER_VERTEX = 0x8B31,
   SHADER_FRAGMENT = 0x8B30,
 };
 
+enum class ShaderSourceType : uint8 {
+  UNIFORM,
+  OUT,
+};
+
 class Shader {
 private:
   uint32 m_id;
   ShaderType m_type;
+  bool m_isCompiled = false;
   Shader();
 
 public:
@@ -25,4 +32,11 @@ public:
 public:
   const uint32 &GetId() const;
   const ShaderType &GetType() const;
+  int32 GetIv(int32 _pname) const;
+  std::string GetInfoLog() const;
+
+public:
+  void Compile(std::string& _src);
+  const bool &IsCompiled() const;
+  friend class Program;
 };
