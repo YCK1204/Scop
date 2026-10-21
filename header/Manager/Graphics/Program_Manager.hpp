@@ -30,4 +30,8 @@ public:
    */
   void DeleteProgram(uint32 _id);
   void DeleteProgram(std::shared_ptr<Program> _program);
+  /**
+   * @brief 만든 프로그램 전체. 키는 GL 프로그램 id
+   */
+  const std::map<uint32, std::shared_ptr<Program>> &GetPrograms() const;
 };

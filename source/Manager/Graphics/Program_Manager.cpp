@@ -29,3 +29,4 @@ void Program_Manager::DeleteProgram(std::shared_ptr<Program> _program) {
     m_programs.erase(_program->GetId());
   }
 }
+const std::map<uint32, std::shared_ptr<Program>> &Program_Manager::GetPrograms() const { return m_programs; }
