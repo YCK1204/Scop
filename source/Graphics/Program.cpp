@@ -51,6 +51,10 @@ void Program::SetUniform3f(int32 _location, float _x, float _y, float _z) const 
   Use();
   glUniform3f(_location, _x, _y, _z);
 }
+void Program::SetUniformMatrix4f(int32 _location, const Mat4 &_matrix) const {
+  Use();
+  glUniformMatrix4fv(_location, 1, GL_TRUE, _matrix.data());
+}
 
 void Program::RegisterUniforms(const std::vector<UniformDecl> &_uniforms) {
   for (const UniformDecl &uniform : _uniforms) {
@@ -84,8 +88,10 @@ bool Program::SetUniform(const std::string &_name, const UniformValue &_value) c
           SetUniform1f(location, _v);
         } else if constexpr (std::is_same_v<T, int32>) {
           SetUniform1i(location, _v);
-        } else {
+        } else if constexpr (std::is_same_v<T, Vec3>) {
           SetUniform3f(location, _v.x, _v.y, _v.z);
+        } else {
+          SetUniformMatrix4f(location, _v);
         }
       },
       _value);

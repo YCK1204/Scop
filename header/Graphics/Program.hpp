@@ -94,6 +94,11 @@ public:
    * @param _location GetUniformLocation으로 구한 위치
    */
   void SetUniform3f(int32 _location, float _x, float _y, float _z) const;
+  /**
+   * @brief mat4 유니폼 값을 넣는다. Mat4는 행 우선 저장이므로 GL_TRUE로 전치해서 보낸다. 내부에서 Use를 먼저 호출한다.
+   * @param _location GetUniformLocation으로 구한 위치
+   */
+  void SetUniformMatrix4f(int32 _location, const Mat4 &_matrix) const;
 
 public:
   /**
